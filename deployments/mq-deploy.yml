@@ -13,5 +13,5 @@ spec:
     spec:
       containers:
         - name: whatever
-          image: richardchesterwood/k8s-fleetman-queue:release1
+          image: richardchesterwood/k8s-fleetman-queue:release2
   replicas: 1
