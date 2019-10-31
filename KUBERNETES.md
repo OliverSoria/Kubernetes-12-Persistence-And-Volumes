@@ -31,4 +31,45 @@ spec:
           image: mongo:3.6.5-jessie
   replicas: 1
 ``` 
+Y no olvidemos su respectivo servicio, que a final de cuentas es a donde se el _Position Tracker_ almacenará la información:<br/>
 
+```yaml
+kind: Service
+apiVersion: v1
+metadata:
+  name: fleetman-mongodb
+spec:
+  selector:
+    app: mongodb
+  ports:
+    - name: mongoport
+      port: 27017
+  type: ClusterIP
+``` 
+
+Nótese que es un _ClusterIP_ ya que no necesita ser accedido desde el exterior.<br/>
+
+Ahora bien, después de que hemos creado un _deployment_ basado en _mongo_ junto a su respectivo servicio, entonces estamos listos para actualizar a la versión 3 el _Position Tracker_ para que así pueda enviar la información a guardar en el _deployment_ de _mongo_:<br/>
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: position-tracker
+spec:
+  selector:
+    matchLabels:
+      app: position-tracker
+  template:
+    metadata:
+      labels:
+        app: position-tracker
+    spec:
+      containers:
+        - name: position-tracker
+          image: richardchesterwood/k8s-fleetman-position-tracker:release3
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: production-microservice
+  replicas: 1
+```
