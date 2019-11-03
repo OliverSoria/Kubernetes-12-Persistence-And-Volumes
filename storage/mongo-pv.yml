@@ -1,0 +1,14 @@
+# Este documento específica el COMO lo queremos
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongo-pvc
+spec:
+  storageClassName: mylocalstorage
+  capacity:
+    storage: 20Gi
+  hostPath:
+    path: "/mnt/some new/directory/structure"
+    type: DirectoryOrCreate
+  accessModes:
+    - ReadWriteOnce

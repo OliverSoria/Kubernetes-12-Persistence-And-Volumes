@@ -1,0 +1,13 @@
+# Este documento específica QUE es lo que queremos
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  # Nombre que definimos en el template del deployment
+  name: mongo-pvc
+spec:
+  storageClassName: mylocalstorage
+  resources:
+    requests:
+      storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
